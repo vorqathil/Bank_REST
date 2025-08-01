@@ -6,3 +6,22 @@
   - Указать порт приложения.
   - Настроить параметры безопасности и JWT.
   - Включить Swagger UI.
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bank_rest_db
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+        hbm2ddl:
+          auto: update
+
+jwt:
+  app:
+    secret: uqwre783874awueyruiwr787f453y243870sd0dew3
+    expiration: 86400000
