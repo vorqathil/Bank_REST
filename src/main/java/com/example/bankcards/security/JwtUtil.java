@@ -9,16 +9,16 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 
-@Service
+@Component
 @Slf4j
-public class JwtService {
+public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -33,7 +33,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    private String extractUsernameFromToken(String token) {
+    public String extractUsernameFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()

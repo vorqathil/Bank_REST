@@ -19,6 +19,8 @@ public class Card {
 
     private String cardNumber;
 
+    private String maskedCardNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
