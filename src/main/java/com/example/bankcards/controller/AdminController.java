@@ -1,6 +1,5 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.dto.CardDTO;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.service.CardService;
 import com.example.bankcards.service.UserService;
@@ -57,6 +56,12 @@ public class AdminController {
     @DeleteMapping("/{cardId}")
     public ResponseEntity<Void> deleteCard(@PathVariable("cardId") Long cardId) {
         cardService.deleteCard(cardId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{username}/make-admin")
+    public ResponseEntity<Void> makeAdmin(@PathVariable("username") String username) {
+        userService.makeAdmin(username);
         return ResponseEntity.ok().build();
     }
 }

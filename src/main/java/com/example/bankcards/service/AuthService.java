@@ -2,6 +2,7 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.dto.AuthenticationDTO;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.entity.enums.Role;
 import com.example.bankcards.exception.UserAlreadyExistsException;
 import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.security.JwtUtil;
@@ -38,6 +39,7 @@ public class AuthService {
             throw new UserAlreadyExistsException(user.getUsername());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         return jwtUtil.generateAccessToken(user.getUsername());
     }
