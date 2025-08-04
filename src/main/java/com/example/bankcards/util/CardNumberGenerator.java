@@ -19,7 +19,6 @@ public class CardNumberGenerator {
             cardNumber = generateRandomCardNumber();
         } while (cardRepository.existsByCardNumber(cardNumber));
 
-        cardNumber = maskedCardNumber(cardNumber);
         return cardNumber;
     }
 

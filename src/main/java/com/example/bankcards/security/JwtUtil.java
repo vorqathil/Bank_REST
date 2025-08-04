@@ -1,12 +1,12 @@
 package com.example.bankcards.security;
 
+import com.example.bankcards.exception.JwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Component
-@Slf4j
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
@@ -70,17 +69,15 @@ public class JwtUtil {
                     .parseSignedClaims(token);
             return true;
         } catch (SignatureException e) {
-            log.error("Invalid JWT signature: {}", e.getMessage());
+            throw new JwtException("Invalid JWT signature: " + e.getMessage());
         } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
+            throw new JwtException("Invalid JWT token: " + e.getMessage());
         } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
+            throw new JwtException("JWT token is expired: " + e.getMessage());
         } catch (UnsupportedJwtException e) {
-            log.error("JWT token is unsupported: {}", e.getMessage());
+            throw new JwtException("JWT token is unsupported: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
+            throw new JwtException("JWT claims string is empty: " + e.getMessage());
         }
-
-        return false;
     }
 }

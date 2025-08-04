@@ -1,0 +1,13 @@
+.git
+.gitignore
+README.md
+Dockerfile
+docker-compose.yml
+.mvn
+mvnw
+mvnw.cmd
+target/classes
+target/test-classes
+target/maven-status
+target/surefire-reports
+src/test

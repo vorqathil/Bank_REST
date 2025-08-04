@@ -1,9 +1,8 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.entity.Card;
+import com.example.bankcards.dto.CardDTO;
 import com.example.bankcards.service.CardService;
 import com.example.bankcards.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +15,10 @@ import java.util.List;
 public class AdminController {
     private final CardService cardService;
     private final UserService userService;
-    private final ModelMapper modelMapper;
 
-    public AdminController(CardService cardService, UserService userService, ModelMapper modelMapper) {
+    public AdminController(CardService cardService, UserService userService) {
         this.cardService = cardService;
         this.userService = userService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/create")
@@ -32,12 +29,12 @@ public class AdminController {
     }
 
     @GetMapping()
-    public List<Card> getCards() {
+    public List<CardDTO> getCards() {
         return cardService.getCards();
     }
 
     @GetMapping("/{cardId}")
-    public Card getCard(@PathVariable("cardId") Long cardId) {
+    public CardDTO getCard(@PathVariable("cardId") Long cardId) {
         return cardService.getCard(cardId);
     }
 
@@ -62,6 +59,12 @@ public class AdminController {
     @PutMapping("/{username}/make-admin")
     public ResponseEntity<Void> makeAdmin(@PathVariable("username") String username) {
         userService.makeAdmin(username);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update-expiration")
+    public ResponseEntity<Void> updateExpirationTime() {
+        cardService.updateExpirationTime();
         return ResponseEntity.ok().build();
     }
 }

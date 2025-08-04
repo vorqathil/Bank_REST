@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-cards-table
+      author: vorqathil
+      changes:
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: card_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: masked_card_number
+                  type: varchar(19)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: validity_period
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: decimal(15,2)
+                  defaultValue: 0.00
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 002-add-cards-foreign-key
+      author: vorqathil
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: cards
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_cards_user_id
+            onDelete: CASCADE
+  - changeSet:
+      id: 002-add-cards-constraints
+      author: vorqathil
+      changes:
+        - sql:
+            sql: "ALTER TABLE cards ADD CONSTRAINT chk_cards_status CHECK (status IN ('PENDING', 'ACTIVE', 'PENDING_TO_BLOCKING', 'BLOCKED', 'EXPIRED'))"
+        - sql:
+            sql: "ALTER TABLE cards ADD CONSTRAINT chk_cards_balance CHECK (balance >= 0)"
+        - createIndex:
+            tableName: cards
+            indexName: idx_cards_user_id
+            columns:
+              - column:
+                  name: user_id

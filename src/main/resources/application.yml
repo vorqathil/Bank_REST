@@ -25,9 +25,8 @@ spring:
     enabled: true
 
 jwt:
-  app:
-    secret: uqwre783874awueyruiwr787f453y243870sd0dew3
-    expiration: 86400000
+  secret: uqwre783874awueyruiwr787f453y243870sd0dew3
+  expiration: 86400000
 
 admin:
     username: admin

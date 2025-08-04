@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-users-table
+      author: vorqathil
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 001-add-users-role-constraint
+      author: vorqathil
+      changes:
+        - sql:
+            sql: "ALTER TABLE users ADD CONSTRAINT chk_users_role CHECK (role IN ('ADMIN', 'USER'))"

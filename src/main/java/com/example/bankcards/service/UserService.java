@@ -30,4 +30,8 @@ public class UserService implements org.springframework.security.core.userdetail
         user.setRole(Role.ADMIN);
         userRepository.save(user);
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+    }
 }
